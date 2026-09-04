@@ -1,0 +1,35 @@
+# Title: Longest Palindromic Substring
+# Submission ID: 2131021452
+# Status: Accepted
+# Date: September 4, 2026 at 11:40:35 PM GMT+5:30
+
+class Solution(object):
+    def longestPalindrome(self, s):
+        if len(s) < 2:
+            return s
+
+        start = 0
+        end = 0
+
+        def expand(left, right):
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                left -= 1
+                right += 1
+
+            # Return the length of the palindrome
+            return right - left - 1
+
+        for i in range(len(s)):
+            # Odd-length palindrome
+            len1 = expand(i, i)
+
+            # Even-length palindrome
+            len2 = expand(i, i + 1)
+
+            length = max(len1, len2)
+
+            if length > end - start + 1:
+                start = i - (length - 1) // 2
+                end = i + length // 2
+
+        return s[start:end + 1]
